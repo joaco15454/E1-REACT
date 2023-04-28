@@ -1,15 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import {MainWrap} from './WrapStyles'
 import Buttons from '../Buttons/Buttons'
 import Task from '../Task/Task'
 import Form from '../Form/Form'
 import {ContainerTask} from '../Task/TaskStyles'
+import UserContext from './TodoListContext'
+
 
 const Wrap = () => {
 
   const [tarea, setTarea] = useState('')  
   const [TaskList, setTaskList] = useState([])
   const [flocalStorage, setflocalStorage] = useState([])
+
+  /*useEffect(() => {
+    // Actualiza el contexto con la nueva lista de tareas cada vez que cambia
+    UserContext.TaskList = TaskList
+  }, [TaskList])*/
+
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -27,9 +35,9 @@ const Wrap = () => {
     const temp = [newTask, ...TaskList]
     
     setTaskList(temp)
-
+    
     setTarea('')
-    console.log(TaskList)
+
   }
 
   const borrarTarea  = (id) => {
@@ -40,8 +48,11 @@ const Wrap = () => {
     setTarea(e.target.value)
     console.log(tarea)
   }
+  const contexto = 90;
   return (
+   <UserContext.Provider value={ TaskList }>
     <MainWrap>
+      
       <div>
       <h1>TodoList</h1>
       <Form
@@ -70,7 +81,7 @@ const Wrap = () => {
         setTaskList= {setTaskList}
         />
     </MainWrap>
-    
+    </UserContext.Provider>
   )
 }
 

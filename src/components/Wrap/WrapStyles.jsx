@@ -4,7 +4,7 @@ export const MainWrap = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    
+    margin-top: 2rem;
     align-items: center;
     background-color: #292626;
     height: 700px;
@@ -16,7 +16,7 @@ export const MainWrap = styled.div`
         font-size: 40px;
         margin-top: -10px;
     }
-    
+    margin-left: 20%;
    
     
 `
