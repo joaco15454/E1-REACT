@@ -1,17 +1,18 @@
 import React from 'react'
 import { NavbarHero,NavbarLink,ButtonNavbar } from './NavbarStyles'
+import { useSelector } from 'react-redux'
 
-import { useContext, useEffect } from 'react'
-import UserContext from '../Wrap/TodoListContext'
+
+
 
 const Navbar = () => {
-  const taskList = useContext(UserContext) || []
-  console.log(taskList);
+  const load = useSelector((state) => state.load.load)
+  console.log("El load es:",load)
   return (
    
     <NavbarHero>
      
-      {!taskList ? <ButtonNavbar><NavbarLink to="/todoList">TodoList</NavbarLink></ButtonNavbar>: <ButtonNavbar style={{backgroundColor:'red'}}><NavbarLink to="/todoList">TodoList</NavbarLink></ButtonNavbar>}
+    {!load ? <ButtonNavbar><NavbarLink to="/todoList">TodoList</NavbarLink></ButtonNavbar> : <ButtonNavbar style={{backgroundColor:'red'}}><NavbarLink to="/todoList">TodoList</NavbarLink></ButtonNavbar>}  
         
         <ButtonNavbar><NavbarLink to="/pokePage">Pokedex</NavbarLink></ButtonNavbar>
     </NavbarHero>

@@ -4,20 +4,26 @@ import Buttons from '../Buttons/Buttons'
 import Task from '../Task/Task'
 import Form from '../Form/Form'
 import {ContainerTask} from '../Task/TaskStyles'
-import UserContext from './TodoListContext'
-
-
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { changeState } from '../redux/userSlice'
 const Wrap = () => {
 
   const [tarea, setTarea] = useState('')  
-  const [TaskList, setTaskList] = useState([])
-  const [flocalStorage, setflocalStorage] = useState([])
+  const [TaskList, setTaskList] = useState([]) //TAREA GENERALES
+  const [tasks, setTasks] = useState([]); //GUARDADO EN EL LOCAL STORAGE
 
-  /*useEffect(() => {
-    // Actualiza el contexto con la nueva lista de tareas cada vez que cambia
-    UserContext.TaskList = TaskList
-  }, [TaskList])*/
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks))
+    
+  }, [tasks]);
 
+    /** REDUX*/
+    const dispatch = useDispatch();
+  /* 
+**
+
+   */
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -32,25 +38,32 @@ const Wrap = () => {
     }
     
     
+
+
+
     const temp = [newTask, ...TaskList]
-    
+    setTasks(temp)
     setTaskList(temp)
     
     setTarea('')
-
+    dispatch(changeState(tasks.length>0 ? true: false)) 
+    
   }
 
   const borrarTarea  = (id) => {
     const temp = TaskList.filter(item=>item.id !== id )
     setTaskList(temp)
+    setTasks(temp)
+    dispatch(changeState(tasks.length>0 ? true: false))
   }
   const handleChange = (e) => {
     setTarea(e.target.value)
-    console.log(tarea)
+    
+   
+    
   }
-  const contexto = 90;
   return (
-   <UserContext.Provider value={ TaskList }>
+
     <MainWrap>
       
       <div>
@@ -59,6 +72,7 @@ const Wrap = () => {
       tarea={tarea}
       handleChange = {handleChange}
       handleSubmit = {handleSubmit}
+      
       />
         
       </div>
@@ -66,7 +80,7 @@ const Wrap = () => {
 
         <ContainerTask>
           {
-            TaskList.map(tarea => (
+            tasks.map(tarea => (
               <Task 
               key={tarea.id}
               id= {tarea.id}
@@ -81,7 +95,7 @@ const Wrap = () => {
         setTaskList= {setTaskList}
         />
     </MainWrap>
-    </UserContext.Provider>
+
   )
 }
 
